@@ -11,10 +11,11 @@ export function slugify(text: string): string {
     .substring(0, 80);
 }
 
-export function ensureUniqueSlug(slug: string, existing: string[]): string {
+export function ensureUniqueSlug(slug: string, existing: any[]): string {
+  const existingSlugs: string[] = existing.map((e: any) => (typeof e === 'string' ? e : e.slug));
   let final = slug;
   let i = 2;
-  while (existing.includes(final)) {
+  while (existingSlugs.includes(final)) {
     final = `${slug}-${i++}`;
   }
   return final;
