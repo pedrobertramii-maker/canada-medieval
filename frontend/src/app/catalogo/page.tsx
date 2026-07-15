@@ -49,7 +49,7 @@ function CatalogoContent() {
     <div className="max-w-6xl mx-auto px-6 py-12">
       <div className="mb-10">
         <h1 className="font-display text-3xl font-semibold mb-1">Catálogo</h1>
-        <p className="text-muted text-sm">Todos os itens do reino.</p>
+        <p className="text-muted text-sm">Todos os itens disponíveis na loja.</p>
       </div>
 
       <div className="flex flex-col md:flex-row gap-3 mb-8">
@@ -57,7 +57,7 @@ function CatalogoContent() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
           <input
             type="text"
-            placeholder="Buscar..."
+            placeholder="Buscar item..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="input-base pl-9"
