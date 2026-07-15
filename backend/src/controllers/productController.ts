@@ -50,7 +50,7 @@ export const featured = asyncHandler(async (_req: Request, res: Response) => {
 
 export const get = asyncHandler(async (req: Request, res: Response) => {
   const product = await prisma.product.findUnique({
-    where: { slug: req.params.slug },
+    where: { slug: String(req.params.slug) },
     include: { category: true },
   });
   if (!product) throw new ApiError(404, 'Produto não encontrado');
