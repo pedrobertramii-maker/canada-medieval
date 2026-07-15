@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import { api, Product, Category } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 const sorts = [
@@ -16,7 +16,7 @@ const sorts = [
   { value: 'name', label: 'Nome (A-Z)' },
 ];
 
-export default function CatalogoPage() {
+function CatalogoContent() {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<string>(searchParams.get('categoria') || '');
@@ -54,7 +54,6 @@ export default function CatalogoPage() {
 
   return (
     <div className="relative">
-      {/* Hero do catálogo */}
       <section className="relative py-20 banner-medieval border-b-4 border-gold-500/30">
         <div className="absolute inset-0 bg-noise opacity-20" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -69,7 +68,6 @@ export default function CatalogoPage() {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Barra de busca + filtros */}
         <div className="flex flex-col md:flex-row gap-3 mb-8">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-parchment-200/50" />
@@ -106,7 +104,6 @@ export default function CatalogoPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
-          {/* Sidebar de filtros */}
           <aside className={cn('lg:block', filtersOpen ? 'block' : 'hidden')}>
             <div className="card-medieval p-5 sticky top-24">
               <h3 className="font-medieval text-gold-300 tracking-widest mb-4">Filtros</h3>
@@ -170,7 +167,6 @@ export default function CatalogoPage() {
             </div>
           </aside>
 
-          {/* Resultados */}
           <div>
             <div className="flex items-center justify-between mb-6">
               <p className="text-parchment-200/70 text-sm">
@@ -205,5 +201,17 @@ export default function CatalogoPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CatalogoPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-gold-400 font-medieval text-2xl">Carregando catálogo...</div>
+      </div>
+    }>
+      <CatalogoContent />
+    </Suspense>
   );
 }
