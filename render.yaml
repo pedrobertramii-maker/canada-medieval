@@ -5,7 +5,7 @@ services:
     rootDir: backend
     plan: free
     region: oregon
-    buildCommand: npm install prisma@5.22.0 @prisma/client@5.22.0 typescript@5.4.5 --save-exact --legacy-peer-deps && npx prisma generate && npx prisma migrate deploy && node ./node_modules/typescript/bin/tsc -p .
+    buildCommand: npm install prisma@5.22.0 @prisma/client@5.22.0 typescript@5.4.5 --save-exact --legacy-peer-deps && node ./node_modules/prisma/build/index.js generate && node ./node_modules/prisma/build/index.js migrate deploy && node ./node_modules/typescript/bin/tsc -p .
     startCommand: npm start
     healthCheckPath: /health
     autoDeploy: true
