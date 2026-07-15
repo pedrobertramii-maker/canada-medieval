@@ -11,12 +11,12 @@ function signAccess(admin: { id: string; username: string; role: string }) {
   return jwt.sign(
     { id: admin.id, username: admin.username, role: admin.role },
     env.jwt.accessSecret,
-    { expiresIn: env.jwt.accessExpires }
+    { expiresIn: env.jwt.accessExpires as any }
   );
 }
 
 function signRefresh(admin: { id: string }) {
-  return jwt.sign({ id: admin.id }, env.jwt.refreshSecret, { expiresIn: env.jwt.refreshExpires });
+  return jwt.sign({ id: admin.id }, env.jwt.refreshSecret, { expiresIn: env.jwt.refreshExpires as any });
 }
 
 export const login = asyncHandler(async (req: Request, res: Response) => {
