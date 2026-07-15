@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: #0F0905;
+    --color-surface: #1B1108;
+    --color-elevated: #2A1A0D;
+    --color-border: #3F2613;
+    --color-text: #F5EBD3;
+    --color-muted: #A87B4F;
+    --color-gold: #E6B84F;
+  }
+
+  .light {
+    --color-bg: #F5EBD3;
+    --color-surface: #E9D5A1;
+    --color-elevated: #D4B97A;
+    --color-border: #A87B4F;
+    --color-text: #1B1108;
+    --color-muted: #5C371B;
+    --color-gold: #A87B1F;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(168, 123, 79, 0.08), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(230, 184, 79, 0.05), transparent 50%);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  ::selection {
+    background: rgba(230, 184, 79, 0.3);
+    color: var(--color-text);
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-bg); }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #8B5A2B, #5C371B);
+    border-radius: 6px;
+    border: 2px solid var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #A87B4F, #8B5A2B); }
+}
+
+@layer components {
+  /* Botão medieval dourado */
+  .btn-medieval {
+    @apply relative inline-flex items-center justify-center gap-2 px-7 py-3.5
+      font-medieval font-semibold text-base tracking-wider uppercase
+      transition-all duration-300 ease-out
+      bg-gradient-to-b from-gold-400 via-gold-500 to-gold-600
+      text-wood-900
+      border-2 border-gold-300
+      shadow-md hover:shadow-gold-glow
+      rounded-sm
+      overflow-hidden;
+  }
+  .btn-medieval::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    background-size: 200% 100%;
+  }
+  .btn-medieval:hover::before { opacity: 1; animation: shimmer 1.5s linear; }
+  .btn-medieval:hover { transform: translateY(-2px); }
+  .btn-medieval:active { transform: translateY(0); }
+
+  /* Botão medieval secundário (madeira) */
+  .btn-medieval-secondary {
+    @apply relative inline-flex items-center justify-center gap-2 px-7 py-3.5
+      font-medieval font-semibold text-base tracking-wider uppercase
+      transition-all duration-300 ease-out
+      bg-gradient-to-b from-wood-300 via-wood-400 to-wood-500
+      text-parchment-50
+      border-2 border-wood-200
+      shadow-md hover:shadow-medieval
+      rounded-sm;
+  }
+  .btn-medieval-secondary:hover {
+    transform: translateY(-2px);
+    background-image: linear-gradient(to bottom, #A87B4F, #6F4423, #5C371B);
+  }
+
+  /* Card medieval */
+  .card-medieval {
+    @apply relative bg-elevated/80 backdrop-blur-sm
+      border-2 border-wood-400/60
+      shadow-medieval rounded-md
+      transition-all duration-300 ease-out;
+    background-image:
+      linear-gradient(135deg, rgba(168, 123, 79, 0.08) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.15 0 0 0 0 0.1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .card-medieval:hover {
+    border-color: rgba(230, 184, 79, 0.6);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(230, 184, 79, 0.2);
+  }
+
+  /* Divisor medieval */
+  .divider-medieval {
+    @apply relative flex items-center justify-center gap-3 my-6;
+  }
+  .divider-medieval::before,
+  .divider-medieval::after {
+    content: '';
+    @apply flex-1 h-px bg-gradient-to-r from-transparent via-gold-500/60 to-transparent;
+  }
+
+  /* Banner medieval */
+  .banner-medieval {
+    @apply relative overflow-hidden;
+    background:
+      linear-gradient(180deg, rgba(43, 26, 13, 0.85), rgba(15, 9, 5, 0.95)),
+      repeating-linear-gradient(45deg, #2A1A0D 0px, #2A1A0D 8px, #1B1108 8px, #1B1108 16px);
+  }
+
+  /* Glow dourado em texto */
+  .text-gold-glow {
+    color: #E6B84F;
+    text-shadow: 0 0 12px rgba(230, 184, 79, 0.5), 0 0 24px rgba(230, 184, 79, 0.3);
+  }
+
+  /* Input medieval */
+  .input-medieval {
+    @apply w-full px-4 py-3 bg-wood-800/60 border-2 border-wood-400/50
+      text-parchment-50 placeholder-parchment-200/40
+      font-body text-base
+      focus:outline-none focus:border-gold-500/80 focus:ring-2 focus:ring-gold-500/30
+      transition-all duration-200 rounded-sm;
+  }
+
+  /* Tocha animada */
+  .torch {
+    @apply absolute w-3 h-6 rounded-sm;
+    background: linear-gradient(180deg, #FF7B00 0%, #E8590C 50%, #8B5A2B 100%);
+    box-shadow: 0 0 20px #FF7B00, 0 0 40px rgba(255, 123, 0, 0.5);
+    animation: torch-flicker 2.5s ease-in-out infinite;
+  }
+  .torch::before {
+    content: '';
+    @apply absolute -top-4 left-1/2 -translate-x-1/2 w-1 h-4 bg-torch-400 rounded-full;
+    filter: blur(4px);
+    animation: torch-flicker 1.8s ease-in-out infinite;
+  }
+
+  /* Brasão com gradiente animado */
+  .coat-of-arms {
+    background: radial-gradient(circle at 30% 30%, #F5D77B, #C99A2E 60%, #7A5616);
+  }
+
+  /* Maple leaf decorativo */
+  .maple-decoration {
+    position: relative;
+  }
+  .maple-decoration::after {
+    content: '🍁';
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.15;
+  }
+
+  .label {
+    @apply block text-sm font-medieval text-parchment-100 mb-2 tracking-wider;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { scrollbar-width: none; }
+  .bg-noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E"); }
+}

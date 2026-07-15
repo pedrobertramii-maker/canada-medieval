@@ -1,0 +1,218 @@
+// Canada Medieval - Prisma Schema
+// PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ========================================
+// AUTH
+// ========================================
+
+model Admin {
+  id            String    @id @default(cuid())
+  username      String    @unique
+  email         String    @unique
+  passwordHash  String
+  name          String
+  role          AdminRole @default(STAFF)
+  avatar        String?
+  isActive      Boolean   @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  updates       Update[]  @relation("UpdateAuthor")
+
+  @@index([username])
+  @@index([email])
+}
+
+enum AdminRole {
+  OWNER       // dono supremo
+  ADMIN       // administrador
+  STAFF       // staff comum
+}
+
+// ========================================
+// DONOS DA LOJA
+// ========================================
+
+model Owner {
+  id           String   @id @default(cuid())
+  name         String
+  minecraftNick String  @unique
+  role         String   // cargo: "Fundador", "Co-Fundador", etc.
+  description  String   @db.Text
+  order        Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([order])
+  @@index([minecraftNick])
+}
+
+// ========================================
+// CATEGORIAS
+// ========================================
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  icon        String?   // lucide icon name
+  color       String?   // hex color
+  order       Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  products    Product[]
+
+  @@index([slug])
+  @@index([order])
+}
+
+// ========================================
+// PRODUTOS
+// ========================================
+
+model Product {
+  id          String        @id @default(cuid())
+  name        String
+  slug        String        @unique
+  description String        @db.Text
+  price       Decimal       @db.Decimal(10, 2)
+  oldPrice    Decimal?      @db.Decimal(10, 2)
+  imageUrl    String
+  imagePublicId String?
+  stock       Int?
+  featured    Boolean       @default(false)
+  status      ProductStatus @default(ACTIVE)
+  views       Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  categoryId  String
+  category    Category      @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  tags        ProductTag[]
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([price])
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+  OUT_OF_STOCK
+}
+
+model ProductTag {
+  id        String   @id @default(cuid())
+  name      String
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, name])
+}
+
+// ========================================
+// ATUALIZAÇÕES
+// ========================================
+
+model Update {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String   @db.Text
+  content     String   @db.Text
+  imageUrl    String
+  imagePublicId String?
+  authorId    String
+  author      Admin    @relation("UpdateAuthor", fields: [authorId], references: [id], onDelete: Restrict)
+  published   Boolean  @default(true)
+  pinned      Boolean  @default(false)
+  views       Int      @default(0)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([publishedAt])
+  @@index([pinned])
+}
+
+// ========================================
+// SUGESTÕES
+// ========================================
+
+model Suggestion {
+  id        String           @id @default(cuid())
+  name      String
+  discord   String?
+  title     String
+  description String         @db.Text
+  status    SuggestionStatus @default(PENDING)
+  adminNote String?          @db.Text
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum SuggestionStatus {
+  PENDING
+  READ
+  APPROVED
+  REJECTED
+  IMPLEMENTED
+}
+
+// ========================================
+// CONFIGURAÇÕES GERAIS
+// ========================================
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  type      String   @default("string") // string, json, number, boolean
+  group     String   @default("general")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+  @@index([group])
+}
+
+// ========================================
+// AUDIT LOG
+// ========================================
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  adminId   String?
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([adminId])
+  @@index([entity])
+  @@index([createdAt])
+}

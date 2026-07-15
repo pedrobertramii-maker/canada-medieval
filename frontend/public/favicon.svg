@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="g" cx="40%" cy="35%">
+      <stop offset="0%" stop-color="#F5D77B"/>
+      <stop offset="60%" stop-color="#C99A2E"/>
+      <stop offset="100%" stop-color="#7A5616"/>
+    </radialGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E74C3C"/>
+      <stop offset="100%" stop-color="#922B21"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#g)" stroke="#7A5616" stroke-width="2"/>
+  <circle cx="32" cy="32" r="26" fill="#1B1108" stroke="#E6B84F" stroke-width="1"/>
+  <!-- Brasão -->
+  <g transform="translate(32,32)">
+    <!-- Folha de maple estilizada -->
+    <path d="M0,-14 L3,-6 L8,-8 L5,-2 L11,0 L5,2 L8,8 L3,6 L0,14 L-3,6 L-8,8 L-5,2 L-11,0 L-5,-2 L-8,-8 L-3,-6 Z"
+          fill="url(#leaf)" stroke="#5C1A12" stroke-width="0.5"/>
+  </g>
+  <!-- Ornamentos -->
+  <text x="32" y="14" font-size="8" text-anchor="middle" fill="#E6B84F" font-family="serif">♛</text>
+</svg>
