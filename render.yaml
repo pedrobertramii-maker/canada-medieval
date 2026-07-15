@@ -5,8 +5,8 @@ services:
     rootDir: backend
     plan: free
     region: oregon
-    buildCommand: npm install --legacy-peer-deps
-    startCommand: npx prisma@5.22.0 generate && npx prisma@5.22.0 migrate deploy && npx tsc@5.4.5 -p . && node dist/server.js
+    buildCommand: npm install --legacy-peer-deps && npx prisma@5.22.0 generate && npx prisma@5.22.0 migrate deploy && npx tsc@5.4.5 -p .
+    startCommand: node dist/server.js
     healthCheckPath: /health
     autoDeploy: true
     envVars:
