@@ -33,7 +33,7 @@ export const list = asyncHandler(async (req: Request, res: Response) => {
 
 export const get = asyncHandler(async (req: Request, res: Response) => {
   const update = await prisma.update.findUnique({
-    where: { slug: req.params.slug },
+    where: { slug: String(req.params.slug) },
     include: { author: { select: { name: true, username: true, avatar: true } } },
   });
   if (!update) throw new ApiError(404, 'Atualização não encontrada');
