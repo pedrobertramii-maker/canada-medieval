@@ -24,13 +24,13 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="max-w-3xl"
         >
-          <p className="text-sm text-accent font-medium mb-4">Loja oficial do reino</p>
+          <p className="text-sm text-accent font-medium mb-4">Loja do servidor</p>
           <h1 className="font-display text-5xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
-            Itens lendários<br />
+            Os melhores itens<br />
             <span className="text-accent">do Canadá.</span>
           </h1>
           <p className="text-lg text-muted max-w-xl mb-10">
-            Blocos, ferramentas, armaduras e itens raros forjados para os aventureiros mais corajosos.
+            Blocos, ferramentas, armaduras e tudo que você precisa pra mandar bem no servidor.
           </p>
           <div className="flex items-center gap-3">
             <Link href="/catalogo" className="btn-primary">
@@ -46,7 +46,7 @@ export default function Home() {
       {products.length > 0 && (
         <section className="max-w-6xl mx-auto px-6 py-16 border-t border-border">
           <div className="flex items-center justify-between mb-10">
-            <h2 className="font-display text-2xl font-semibold">Destaques</h2>
+            <h2 className="font-display text-2xl font-semibold">Em destaque</h2>
             <Link href="/catalogo" className="text-sm text-muted hover:text-text transition-colors">
               Ver todos →
             </Link>
