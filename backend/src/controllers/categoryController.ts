@@ -21,7 +21,7 @@ export const adminList = asyncHandler(async (_req: Request, res: Response) => {
 });
 
 export const get = asyncHandler(async (req: Request, res: Response) => {
-  const category = await prisma.category.findUnique({ where: { slug: req.params.slug } });
+  const category = await prisma.category.findUnique({ where: { slug: String(req.params.slug) } });
   if (!category) throw new ApiError(404, 'Categoria não encontrada');
   res.json({ category });
 });
